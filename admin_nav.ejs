@@ -1,0 +1,108 @@
+<aside id="sidebar-wrapper">
+
+    <div class="sidebar-brand bg-success">
+        <h2>IPH</h2>
+    </div>
+
+    <ul class="sidebar-nav">
+        <li class="<% if (page_name === 'overview') { %>
+            dropdown active
+            <%} else { %>
+            dropdown
+            <% } %>">
+            <a class="ddbtn" href="/admin/dashboard"><i class="fa fa-home"></i>Vue d'ensemble</a>
+        </li>
+        <li class="<% if (page_name === 'profile') { %>active<% } %>">
+            <a href="/admin/profile"><i class="fa fa-id-card"></i>Profile</a>
+        </li>
+
+        <li class="<% if (page_name === 'staff') { %>
+            dropdown active
+            <%} else { %>
+            dropdown
+            <% } %>">
+            <a class="ddbtn" href="#"><i class="fa fa-chalkboard-teacher"></i>Membre</a>
+            <div class="dropdown-content">
+                <a href="/admin/addStaff">Ajouter Membre</a>
+                <a href="/admin/getStaff">Paramètre Membre</a>
+            </div>
+        </li>
+
+
+        <li class="<% if (page_name === 'students') { %>
+            dropdown active
+            <%} else { %>
+            dropdown
+            <% } %>">
+            <a class="ddbtn" href="#"><i class="fa fa-book-reader"></i>Etudiants</a>
+            <div class="dropdown-content">
+                <a href="/admin/addStudent">Ajouter Etudiant</a>
+                <a href="/admin/getStudent">Paramètre Etudiant</a>
+            </div>
+        </li>
+
+        <li class="<% if (page_name === 'courses') { %>
+            dropdown active
+            <%} else { %>
+            dropdown
+            <% } %>">
+            <a class="ddbtn" href="#"><i class="fa fa-award"></i>Cours</a>
+            <div class="dropdown-content">
+                <a href="/admin/addCourse">Ajouter Cours</a>
+                <a href="/admin/getCourse">Paramètre Cours</a>
+            </div>
+        </li>
+
+        <li class="<% if (page_name === 'classes') { %>
+            dropdown active
+            <%} else { %>
+            dropdown
+            <% } %>">
+            <a class="ddbtn" href="#"><i class="fa fa-chalkboard"></i>Classes</a>
+            <div class="dropdown-content">
+                <a href="/admin/addClass">Ajouter Classe</a>
+                <a href="/admin/getClass">Paramètre Classe</a>
+            </div>
+        </li>
+
+        <li class="<% if (page_name === 'depts') { %>
+            dropdown active
+            <%} else { %>
+            dropdown
+            <% } %>">
+            <a class="ddbtn" href="#"><i class="fa fa-school"></i>Discipline</a>
+            <div class="dropdown-content">
+                <a href="/admin/addDept">Ajouter Discipline</a>
+                <a href="/admin/getDept">Paramètre Discipline</a>
+            </div>
+        </li>
+
+
+
+        <hr>
+        <li class="<% if (page_name === 'settings') { %>
+            dropup active
+            <%} else { %>
+                dropup
+            <% } %>">
+            <a class="ddbtn" href="#"><i class="fa fa-cog"></i>Paramètre</a>
+            <div class="dropup-content">
+                <a href="/admin/info_settings">Paramètre Information</a>
+                <a href="/admin/password_settings">Paramètre mot De Passe</a>
+            </div>
+        </li>
+        <li>
+            <a href="/admin/logout"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>
+        </li>
+    </ul>
+</aside>
+
+<div id="navbar-wrapper" style="position: fixed;">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand" id="sidebar-toggle"><i class="fa fa-bars"></i></a>
+            </div>
+        </div>
+    </nav>
+</div>

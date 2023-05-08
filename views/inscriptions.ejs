@@ -1,0 +1,53 @@
+<%- include('./Includes/begin.ejs') %>
+<%- include('./Includes/navbar.ejs') %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <img src="<%= course.image %>" class="img-fluid" alt="<%= course.name %>">
+    </div>
+    <div class="col-md-6">
+      <h1><%= course.name %></h1>
+
+      <form action="/inscriptions" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="course_id" value="<%= course.c_id %>">
+        <div class="form-group">
+          <label for="nom">Nom :</label>
+          <input type="text" class="form-control" id="nom" name="nom" required>
+        </div>
+        <div class="form-group">
+          <label for="prenom">Prénom :</label>
+          <input type="text" class="form-control" id="prenom" name="prenom" required>
+        </div>
+        <div class="form-group">
+          <label for="adresse">Adresse :</label>
+          <input type="text" class="form-control" id="adresse" name="adresse" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email :</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="diplome">Diplôme (PDF) :</label>
+          <input type="file" class="form-control" id="diplome" name="diplome" required accept=".pdf">
+        </div>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
