@@ -879,7 +879,7 @@ exports.getAddCourse = async (req, res, next) => {
   const results = await zeroParamPromise('SELECT * from department');
   let departments = [];
   for (let i = 0; i < results.length; ++i) {
-    departments.push(results[i].dept_id);
+    departments.push(results[i]);
   }
   res.render('Admin/Course/addCourse', {
     departments,

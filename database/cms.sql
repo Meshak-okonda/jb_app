@@ -98,9 +98,14 @@ CREATE TABLE IF NOT EXISTS `marks` (
 
 CREATE TABLE IF NOT EXISTS `inscriptions` (
 	`id` INT NOT NULL AUTO_INCREMENT,
+	`course_id` INT NOT NULL,
 	`name` VARCHAR(50) NOT NULL,
-	`email` VARCHAR(25) NOT NULL,
-	`password` VARCHAR(200) NOT NULL,
+	`last_name` VARCHAR(50) NOT NULL,
+	`email` VARCHAR(50) NOT NULL,
+	`adress` VARCHAR(250) NOT NULL,
+	`diplome_name` VARCHAR(25) NOT NULL,
+	`obj` VARCHAR(1000),
+	`status` ENUM('progress','accepted','not_accepted','more_informations') NOT NULL,
 	PRIMARY KEY (`id`)
 );
 

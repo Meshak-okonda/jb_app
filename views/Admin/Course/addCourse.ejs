@@ -6,7 +6,6 @@
 
     <div id="wrapper">
 
-        <%- include('../../Includes/admin_nav.ejs') %>
 
         <section id="content-wrapper">
             <main role="main" class="pt-5 main">
@@ -59,9 +58,9 @@
                                                             <select class="form-control" id="department"
                                                                 name="department" required>
                                                                 <% for(const department of departments) { %>
-                                                                <option>
-                                                                    <%= department %>
-                                                                </option>
+                                                                        <option value="<%= department.dept_id %>">
+                                                                            <%= department.d_name %>
+                                                                        </option>
                                                                 <% } %>
                                                             </select>
                                                         </div>

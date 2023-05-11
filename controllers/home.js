@@ -3,11 +3,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
-const upload = multer({ dest: "public/diplomes/" });
+const { existsSync } = require("fs");
+require("dotenv").config();
 
+const { PATH_FILE, SITE_URL } = process.env;
 
-const mailgun = require('mailgun-js');
+const mailgun = require("mailgun-js");
+const { removeSpecialChars } = require("../utils");
+const sendEMail = require("../utils/sendMail");
 const DOMAIN = process.env.DOMAIN_NAME;
 const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
 
@@ -15,102 +18,58 @@ const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
-  dateStrings: 'date',
-  database: 'iph',
+  dateStrings: "date",
+  database: "iph",
 });
 
-
 exports.getIndex = (req, res, next) => {
-  res.render('index');
+  res.render("index");
 };
 
 exports.getLanding = (req, res, next) => {
-  res.render('landing');
-}
+  res.render("landing");
+};
 exports.getAbout = (req, res, next) => {
-  res.render('about');
-}
+  res.render("about");
+};
 exports.getFormations = (req, res, next) => {
-  db.query('SELECT * FROM course', (error, results) => {
+  db.query("SELECT * FROM course", (error, results) => {
     if (error) {
-      console.log('Error retrieving data from MySQL:', error);
+      console.log("Error retrieving data from MySQL:", error);
     } else {
-      res.render('formations', { course: results });
+      res.render("formations", { course: results });
     }
   });
-
-}
+};
 exports.getCoursDetail = (req, res, next) => {
   const id = req.params.id; // Récupération de l'identifiant dans l'URL
-  db.query('SELECT * FROM course WHERE c_id = ?', [id], (err, rows) => {
+  db.query("SELECT * FROM course WHERE c_id = ?", [id], (err, rows) => {
     if (err) throw err;
-    res.render('coursdetail', { course: rows[0] }); // Affichage de la vue avec les données récupérées
+    res.render("coursdetail", { course: rows[0] }); // Affichage de la vue avec les données récupérées
   });
-
-}
-
-// exports.getInscription = (req, res, next) => {
-//   const formationId = req.session.coursId = c_id;
-//   const nom = req.body.nom;
-//   const prenom = req.body.prenom;
-//   const email = req.body.email;
-//   const diplome = req.files.diplome;
-//   diplome.mv(`public/diplomes/${diplome.name}`, err => {
-//     if (err) throw err;
-//     const query = 'INSERT INTO inscriptions (cours_id, nom, prenom, email, diplome) VALUES (?, ?, ? , ?, ?)';
-//     db.query(query [formationId, nom, prenom, email, diplome.name], (err, results) => {
-//       if (err) throw err;
-//       res.redirect('/merci');
-//     });
-//   });
-// }
-
-
-
-
-
+};
 
 // Méthode pour afficher le formulaire d'inscription
 exports.showInscriptionForm = (req, res) => {
   const id = req.params.id; // Récupération de l'identifiant dans l'URL
-  db.query('SELECT * FROM course WHERE c_id = ?', [id], (err, rows) => {
+  db.query("SELECT * FROM course WHERE c_id = ?", [id], (err, rows) => {
     if (err) throw err;
-    res.render('inscriptions', { course: rows[0] }); // Affichage de la vue avec les données récupérées
+    res.render("inscriptions", { course: rows[0] }); // Affichage de la vue avec les données récupérées
   });
 };
 
-exports.showInscription = (req, res) => {
-    res.render("inscriptions");
-};
-
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/diplomes");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-
-
-
 // Méthode pour traiter la soumission du formulaire d'inscription
-exports.submitInscriptionForm = (req, cpUpload, res) => {
-  // Récupération des données soumises dans le formulaire
-
-  // Insertion des données dans la base de données
-
-  console.log(req.files);
-
+exports.submitInscriptionForm = (req, res) => {
   const course_id = req.body.course_id;
   const nom = req.body.nom;
   const prenom = req.body.prenom;
   const email = req.body.email;
   const adresse = req.body.adresse;
   const diplomeFile = req.files.diplome;
-  const diplomeFileName = diplomeFile.name;
-  const diplomeFilePath = `public/diplomes/${diplomeFileName}`;
+  const extension =
+    diplomeFile.name.split(".")[diplomeFile.name.split(".").length - 1];
+  const file_name = `${removeSpecialChars(diplomeFile.name)}.${extension}`;
+  const diplomeFilePath = `${PATH_FILE}${file_name}`;
 
   // Enregistrer le fichier sur le disque
   diplomeFile.mv(diplomeFilePath, (err) => {
@@ -118,20 +77,54 @@ exports.submitInscriptionForm = (req, cpUpload, res) => {
 
     // Insérer les données dans la base de données
     const query =
-      "INSERT INTO inscriptions (course_id, nom, prenom, email, adresse, diplome) VALUES (?, ?, ?, ?, ?, ?)";
-    const values = [course_id, nom, prenom, email, adresse, diplomeFilePath];
-    db.query(query, values, (err, results) => {
+      "INSERT INTO inscriptions (course_id, name, last_name, email, adress, diplome_name, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const values = [
+      course_id,
+      nom,
+      prenom,
+      email,
+      adresse,
+      file_name,
+      "progress",
+    ];
+    db.query(query, values, async (err, results) => {
       if (err) throw err;
+      const subject = `Votre inscription`;
+      const message = `
+        <div>
+          <p>
+            Felicitation pour votre inscription <strong>${nom} ${prenom}</strong>
+            <a href="${SITE_URL}${results.insertId}">
+              clickez sur ce lien pour voir l'évolution de votre candidature
+            </a>
+          </p>
+        </div>
+      `;
+      console.log(message);
       res.redirect("/merci");
+      await sendEMail(subject, message, email);
     });
   });
 };
 
+exports.getInscriptionDetails = (req, res, next) => {
+  const { id } = req.params;
+  const query = "SELECT * FROM inscriptions WHERE id=?";
+  const values = [id];
+  db.query(query, values, async (err, results) => {
+    if (err) throw err;
+    res.render("inscription_detatail", { results: results[0] });
+  });
+};
 
 exports.getError403 = (req, res, next) => {
-  res.render('error403');
-}
+  res.render("error403");
+};
 
 exports.getError404 = (req, res, next) => {
-  res.render('error404');
-}
+  res.render("error404");
+};
+
+exports.merci = (req, res, next) => {
+  res.render("merci");
+};

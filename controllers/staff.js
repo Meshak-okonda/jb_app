@@ -94,10 +94,9 @@ exports.getTimeTable = async (req, res, next) => {
     await queryParamPromise('SELECT * FROM staff WHERE st_id = ?', [req.user])
   )[0];
   const timeTableData = await queryParamPromise(
-    'select * from time_table where st_id = ? order by day, start_time',
+    "select * from time_table where st_id = ? order by day, start_time",
     [req.user]
   );
-  console.log(timeTableData);
   const startTimes = ['10:00', '11:00', '12:00', '13:00'];
   const endTimes = ['11:00', '12:00', '13:00', '14:00'];
   const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
