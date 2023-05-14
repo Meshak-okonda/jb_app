@@ -933,3 +933,16 @@ exports.postCourseSettings = async (req, res, next) => {
   req.flash('success_msg', 'Course changed successfully!');
   res.redirect('/admin/getAllCourses');
 };
+
+
+exports.getInscription = async (req, res, next) => {
+  const id = req.params.id;
+  db.query("SELECT * FROM inscriptions WHERE id = ?", [id], (err, rows) => {
+    if (err) throw err;
+    console.log(rows, id);
+    return res.render("Admin/inscription", {
+      page_name: "Inscription Details",
+      results: rows[0],
+    }); // Affichage de la vue avec les données récupérées
+  });
+};

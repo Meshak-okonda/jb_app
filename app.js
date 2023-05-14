@@ -9,13 +9,18 @@ const cors = require('cors');
 const methodOverride = require('method-override');
 const fileUpload = require("express-fileupload");
 const { existsSync } = require("fs");
+const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+const compression = require("compression");
 
 const sql = require("./database/mysql");
 
 env.config();
-const app = express();
+const { PORT, SOCKET_PORT } = process.env;
 
 app.use(cors());
+app.use(compression());
 app.use(methodOverride("_method"));
 
 sql.connect();
@@ -71,7 +76,24 @@ app.use("/", homeRoutes);
 // Home Page
 app.use(homeRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server started @ ${PORT}`);
+function onNewWebsocketConnection(socket) {
+  console.info(`Socket ${socket.id} has connected.`);
+  //onlineClients.add(socket.id);
+
+  socket.on("disconnect", () => {
+    console.info(`Socket ${socket.id} has disconnected.`);
+  });
+
+  socket.on("back_to_server", (msg) => {
+    console.info(`Socket ${socket.id} says: "${msg}"`);
+    socket.emit("server_to_admin", msg);
+  });
+}
+
+io.on("connection", onNewWebsocketConnection);
+
+server.listen(PORT || 5000, () => {
+  console.log(`Server started @ ${PORT || 5000}`);
+  console.log(`Socket App listen on : ws://localhost:${PORT || 5000}`);
 });
+

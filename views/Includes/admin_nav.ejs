@@ -78,7 +78,6 @@
         </li>
 
 
-
         <hr>
         <li class="<% if (page_name === 'settings') { %>
             dropup active
@@ -98,6 +97,9 @@
 </aside>
 
 <div id="navbar-wrapper" style="position: fixed;">
+    <div><button id="voir">
+            Voir
+        </button></div>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -106,3 +108,55 @@
         </div>
     </nav>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Une inscription vient d'etre faite... !
+
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <p><a id="lien_inscription" class="link-underline-dark">Voir</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/waypoints.min.js"></script>
+<script src="assets/js/jquery.counterup.min.js"></script>
+<script src="assets/js/TweenMax.min.js"></script>
+<script src="assets/js/wow.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/countdown.min.js"></script>
+<script src="assets/js/vegas.min.js"></script>
+<script src="assets/js/jquery.validate.min.js"></script>
+<script src="assets/js/jquery.ajaxchimp.min.js"></script>
+
+<script type="module">
+    import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+
+    const socket = io("http://localhost:5000");
+
+    socket.on("connect_error", (error) => {
+        console.error("Failed to connect to server:", error);
+    });
+
+    socket.on("connect", () => {
+        console.log("Connected to server");
+
+        socket.on("server_to_admin", function (data) {
+            console.info(`Admin received: ${socketio.id} says: "${data}"`);
+            const data = JSON.parse(data)
+            $("#lien_inscription").attr("href", `inscription/${data.id}`)
+            $('#myModal').modal('show');
+        })
+    });
+</script>

@@ -5,6 +5,7 @@ const multer = require('multer');
 const path = require('path');
 const { existsSync } = require("fs");
 require("dotenv").config();
+const { io } = require("socket.io-client");
 
 const { PATH_FILE, SITE_URL } = process.env;
 
@@ -100,12 +101,70 @@ exports.submitInscriptionForm = (req, res) => {
           </p>
         </div>
       `;
-      console.log(message);
+      const socket = await io("http://localhost:5000", {
+        transports: ["websocket"],
+      });
+
+      socket.on("connect", () => {
+        console.log("Connected to server");
+      });
+
+      socket.on("connect_error", (error) => {
+        console.error("Failed to connect to server:", error);
+      });
+
+      socket.emit(
+        "back_to_server",
+        JSON.stringify({
+          id: results.insertId,
+          course_id,
+          nom,
+          prenom,
+          email,
+        })
+      );
+
       res.redirect("/merci");
-      await sendEMail(subject, message, email);
+      // await sendEMail(subject, message, email);
     });
   });
 };
+
+// Méthode pour traiter la soumission du formulaire d'inscription
+exports.submitInscriptionUpdate = (req, res) => {
+  const status = req.body.status;
+  const remarque = req.body.remarque;
+  const id = req.params.id;
+
+  // Insérer les données dans la base de données
+  const query = `UPDATE inscriptions SET status = ? WHERE id = ?`;
+  const values = [status, parseInt(id)];
+  db.query(query, values, async (err, results) => {
+    if (err) throw err;
+    const subject = `Votre inscription`;
+    const message = `
+        <div>
+          <p>
+            Après vérification de votre requete nous vous informons que votre inscription est : ${
+              status === "accepted" ? "Acceptée" : "Refusée"
+            }!
+            ${
+              status !== "accepted"
+                ? `<div>
+            <h6>La Raison</h6>
+            <p>${remarque}</p>
+            </div>`
+                : ""
+            }
+          </p>
+        </div>
+      `;
+
+    res.redirect("/admin/getAllCourses");
+    // await sendEMail(subject, message, email);
+  });
+};
+
 
 exports.getInscriptionDetails = (req, res, next) => {
   const { id } = req.params;

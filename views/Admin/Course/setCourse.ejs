@@ -81,14 +81,11 @@
                                                                         for="department">Department</label>
                                                                     <select class="form-control" id="department"
                                                                         name="department" required>
-                                                                        <option>
-                                                                            <%= courseData[0].dept_id %>
-                                                                        </option>
                                                                         <% for(const department of departments) { %>
-                                                                            <option class="<% if(department.dept_id === courseData[0].dept_id) { %>
+                                                                            <option value="<%= department.dept_id  %>" class="<% if(department.dept_id === courseData[0].dept_id) { %>
                                                                     hidden
                                                                     <% } %>">
-                                                                                <%= department.dept_id %>
+                                                                                <%= department.d_name %>
                                                                             </option>
                                                                             <% } %>
                                                                     </select>

@@ -20,6 +20,8 @@ router.get("/inscriptions/:id", homeController.showInscriptionForm);
 // Route pour traiter la soumission du formulaire d'inscription
 router.post("/inscriptions", homeController.submitInscriptionForm);
 
+router.put("/inscriptions/:id", homeController.submitInscriptionUpdate);
+
 // Route pour traiter la soumission du formulaire d'inscription
 router.get("/inscriptions/view/:id", homeController.getInscriptionDetails);
 

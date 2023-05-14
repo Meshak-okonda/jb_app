@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `inscriptions` (
 	`adress` VARCHAR(250) NOT NULL,
 	`diplome_name` VARCHAR(25) NOT NULL,
 	`obj` VARCHAR(1000),
-	`status` ENUM('progress','accepted','not_accepted','more_informations') NOT NULL,
+	`status` ENUM('progress','accepted','not_accepted') NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
