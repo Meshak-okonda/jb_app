@@ -946,9 +946,8 @@ exports.getInscription = async (req, res, next) => {
 };
 
 exports.getInscriptionList = async (req, res, next) => {
-  const page = parseInt(req.query.page) || 0;
+  const page = parseInt(req.query.page) || 1;
   const values = [(page - 1) * 10];
-  console.log(page, values);
   db.query(
     "SELECT * FROM inscriptions WHERE status = 'progress' ORDER BY id DESC LIMIT ?, 10",
     values,

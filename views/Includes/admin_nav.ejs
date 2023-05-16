@@ -67,9 +67,16 @@
       </div>
     </li>
 
-    <li class="<% if (page_name === 'list_inscriptions') { %>active<% } %>">
-      <a href="/admin/inscriptions"
-        ><i class="fa fa-list-ol"></i>Liste Inscription</a
+    <li style="position: relative" class="<% if (page_name === 'list_inscriptions') { %>active<% } %>">
+      <a href="/admin/inscriptions?page=1"><i class="fa fa-list-ol"></i>Inscriptions</a>
+      <span style="
+                  position: absolute;
+                  right: 26%;
+                  top: -7px;
+                  font-size: 1.2rem;
+                  color: red;
+                  font-weight: bold;
+                " id="number_new">0</span
       >
     </li>
 
@@ -130,36 +137,18 @@
   </div>
 </div>
 
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/owl.carousel.min.js"></script>
-<script src="assets/js/waypoints.min.js"></script>
-<script src="assets/js/jquery.counterup.min.js"></script>
-<script src="assets/js/TweenMax.min.js"></script>
-<script src="assets/js/wow.js"></script>
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
-<script src="assets/js/countdown.min.js"></script>
-<script src="assets/js/vegas.min.js"></script>
-<script src="assets/js/jquery.validate.min.js"></script>
-<script src="assets/js/jquery.ajaxchimp.min.js"></script>
-
+<script src="/socket.io/socket.io.js"></script>
 <script type="module">
-  import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
-
-  const socket = io("http://localhost:5000");
-
-  socket.on("connect_error", (error) => {
-    console.error("Failed to connect to server:", error);
-  });
-
-  socket.on("connect", () => {
-    console.log("Connected to server");
-  });
-
-  socket.on("server_to_admin", function (data) {
-    console.info(`Admin received: ${socketio.id} says: "${data}"`);
-    const data = JSON.parse(data);
-    $("#lien_inscription").attr("href", `inscription/${data.id}`);
-    $("#myModal").modal("show");
-  });
+      setInterval(async () => {
+        fetch("/numbers", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((e) => e.json())
+          .then((e) => {
+            $("#number_new").text(e);
+          });
+    }, 5000);
 </script>

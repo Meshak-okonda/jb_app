@@ -50,6 +50,7 @@ const adminRoutes = require("./routes/admin");
 const staffRoutes = require("./routes/staff");
 const studentRoutes = require("./routes/student");
 const homeRoutes = require("./routes/home");
+const { setNumbers, getNumbers } = require("./utils");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/public"));
@@ -64,8 +65,16 @@ app.get("/files/:file_name", (req, res) => {
   if (!existsSync(filePath)) {
     return res.status(404).sendFile("public/assets/circle-stripe-1.png");
   }
-  console.log(filePath);
   res.sendFile(filePath);
+});
+
+app.get("/numbers", async (req, res) => {
+  const num = await getNumbers();
+  res.json(num);
+});
+
+app.delete("/numbers", async (req, res) => {
+  await setNumbers(0);
 });
 
 app.use("/admin", adminRoutes);
@@ -84,7 +93,9 @@ function onNewWebsocketConnection(socket) {
     console.info(`Socket ${socket.id} has disconnected.`);
   });
 
-  socket.on("back_to_server", (msg) => {
+  socket.on("back_to_server", async (msg) => {
+    const num = await getNumbers();
+    await setNumbers(num + 1);
     console.info(`Socket ${socket.id} says: "${msg}"`);
     socket.emit("server_to_admin", msg);
   });
