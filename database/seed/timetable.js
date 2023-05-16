@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require("mysql");
 require("dotenv").config();
 
 const { DB_HOST, DB_USER, DB_PASS, DB_DATABASE } = process.env;
@@ -14,7 +14,7 @@ db.connect((err) => {
   if (err) {
     throw err;
   }
-  console.log('Mysql Connected');
+  console.log("Mysql Connected");
 });
 // Database query promises
 const zeroParamPromise = (sql) => {
@@ -36,18 +36,18 @@ const queryParamPromise = (sql, queryParam) => {
     });
   });
 };
-const startTime = ['10:00:00', '11:00:00', '12:00:00', '13:00:00'];
-const endTime = ['11:00:00', '12:00:00', '13:00:00', '14:00:00'];
+const startTime = ["10:00:00", "11:00:00", "12:00:00", "13:00:00"];
+const endTime = ["11:00:00", "12:00:00", "13:00:00", "14:00:00"];
 // Currently implemented only for 1st semester, 2021 joining year students of all departments
 // Assumed only one subject per teacher but can be generalized with an extra 2D array
 async function generateTimeTable() {
   try {
     await new Promise((r) => setTimeout(r, 2000)); // wait for mysql connection
-    await zeroParamPromise('TRUNCATE TABLE time_table');
-    console.log('Time Table Truncated');
-    const classesData = await zeroParamPromise('select * from class');
+    await zeroParamPromise("TRUNCATE TABLE time_table");
+    console.log("Time Table Truncated");
+    const classesData = await zeroParamPromise("select * from class");
     let departmentsData = await zeroParamPromise(
-      'select dept_id from department'
+      "select dept_id from department"
     );
     for (let i = 0; i < departmentsData.length; ++i) {
       departmentsData[i] = departmentsData[i].dept_id;
@@ -63,7 +63,7 @@ async function generateTimeTable() {
       console.table(timeTable);
       for (const classData of classesData) {
         const dept = (
-          await queryParamPromise('select dept_id from course where c_id = ?', [
+          await queryParamPromise("select dept_id from course where c_id = ?", [
             classData.c_id,
           ])
         )[0].dept_id;
@@ -75,7 +75,7 @@ async function generateTimeTable() {
           col = Math.floor(Math.random() * timeTable[row].length);
         }
         timeTable[row][col] = classData.class_id;
-        await queryParamPromise('insert into time_table set ?', {
+        await queryParamPromise("insert into time_table set ?", {
           c_id: classData.c_id,
           st_id: classData.st_id,
           start_time: startTime[col],

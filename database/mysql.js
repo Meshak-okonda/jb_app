@@ -1,8 +1,7 @@
-const mysql = require('mysql');
-require("dotenv").config()
+const mysql = require("mysql");
+require("dotenv").config();
 
 const { DB_HOST, DB_USER, DB_PASS, DB_DATABASE } = process.env;
-
 
 module.exports = class Mysql {
   static connect() {
@@ -18,7 +17,7 @@ module.exports = class Mysql {
       if (err) {
         throw err;
       }
-      console.log('Mysql Connected');
+      console.log("Mysql Connected");
     });
     return db;
   }

@@ -1,130 +1,133 @@
 <aside id="sidebar-wrapper">
+  <div class="sidebar-brand bg-success">
+    <h2>IPH</h2>
+  </div>
 
-    <div class="sidebar-brand bg-success">
-        <h2>IPH</h2>
-    </div>
+  <ul class="sidebar-nav">
+    <li
+      class="<% if (page_name === 'overview') { %> dropdown active <%} else { %> dropdown <% } %>"
+    >
+      <a class="ddbtn" href="/admin/dashboard"
+        ><i class="fa fa-home"></i>Vue d'ensemble</a
+      >
+    </li>
+    <li class="<% if (page_name === 'profile') { %>active<% } %>">
+      <a href="/admin/profile"><i class="fa fa-id-card"></i>Profile</a>
+    </li>
 
-    <ul class="sidebar-nav">
-        <li class="<% if (page_name === 'overview') { %>
-            dropdown active
-            <%} else { %>
-            dropdown
-            <% } %>">
-            <a class="ddbtn" href="/admin/dashboard"><i class="fa fa-home"></i>Vue d'ensemble</a>
-        </li>
-        <li class="<% if (page_name === 'profile') { %>active<% } %>">
-            <a href="/admin/profile"><i class="fa fa-id-card"></i>Profile</a>
-        </li>
+    <li
+      class="<% if (page_name === 'staff') { %> dropdown active <%} else { %> dropdown <% } %>"
+    >
+      <a class="ddbtn" href="#"
+        ><i class="fa fa-chalkboard-teacher"></i>Membre</a
+      >
+      <div class="dropdown-content">
+        <a href="/admin/addStaff">Ajouter Membre</a>
+        <a href="/admin/getStaff">Paramètre Membre</a>
+      </div>
+    </li>
 
-        <li class="<% if (page_name === 'staff') { %>
-            dropdown active
-            <%} else { %>
-            dropdown
-            <% } %>">
-            <a class="ddbtn" href="#"><i class="fa fa-chalkboard-teacher"></i>Membre</a>
-            <div class="dropdown-content">
-                <a href="/admin/addStaff">Ajouter Membre</a>
-                <a href="/admin/getStaff">Paramètre Membre</a>
-            </div>
-        </li>
+    <li
+      class="<% if (page_name === 'students') { %> dropdown active <%} else { %> dropdown <% } %>"
+    >
+      <a class="ddbtn" href="#"><i class="fa fa-book-reader"></i>Etudiants</a>
+      <div class="dropdown-content">
+        <a href="/admin/addStudent">Ajouter Etudiant</a>
+        <a href="/admin/getStudent">Paramètre Etudiant</a>
+      </div>
+    </li>
 
+    <li
+      class="<% if (page_name === 'courses') { %> dropdown active <%} else { %> dropdown <% } %>"
+    >
+      <a class="ddbtn" href="#"><i class="fa fa-award"></i>Cours</a>
+      <div class="dropdown-content">
+        <a href="/admin/addCourse">Ajouter Cours</a>
+        <a href="/admin/getCourse">Paramètre Cours</a>
+      </div>
+    </li>
 
-        <li class="<% if (page_name === 'students') { %>
-            dropdown active
-            <%} else { %>
-            dropdown
-            <% } %>">
-            <a class="ddbtn" href="#"><i class="fa fa-book-reader"></i>Etudiants</a>
-            <div class="dropdown-content">
-                <a href="/admin/addStudent">Ajouter Etudiant</a>
-                <a href="/admin/getStudent">Paramètre Etudiant</a>
-            </div>
-        </li>
+    <li
+      class="<% if (page_name === 'classes') { %> dropdown active <%} else { %> dropdown <% } %>"
+    >
+      <a class="ddbtn" href="#"><i class="fa fa-chalkboard"></i>Classes</a>
+      <div class="dropdown-content">
+        <a href="/admin/addClass">Ajouter Classe</a>
+        <a href="/admin/getClass">Paramètre Classe</a>
+      </div>
+    </li>
 
-        <li class="<% if (page_name === 'courses') { %>
-            dropdown active
-            <%} else { %>
-            dropdown
-            <% } %>">
-            <a class="ddbtn" href="#"><i class="fa fa-award"></i>Cours</a>
-            <div class="dropdown-content">
-                <a href="/admin/addCourse">Ajouter Cours</a>
-                <a href="/admin/getCourse">Paramètre Cours</a>
-            </div>
-        </li>
+    <li
+      class="<% if (page_name === 'depts') { %> dropdown active <%} else { %> dropdown <% } %>"
+    >
+      <a class="ddbtn" href="#"><i class="fa fa-school"></i>Discipline</a>
+      <div class="dropdown-content">
+        <a href="/admin/addDept">Ajouter Discipline</a>
+        <a href="/admin/getDept">Paramètre Discipline</a>
+      </div>
+    </li>
 
-        <li class="<% if (page_name === 'classes') { %>
-            dropdown active
-            <%} else { %>
-            dropdown
-            <% } %>">
-            <a class="ddbtn" href="#"><i class="fa fa-chalkboard"></i>Classes</a>
-            <div class="dropdown-content">
-                <a href="/admin/addClass">Ajouter Classe</a>
-                <a href="/admin/getClass">Paramètre Classe</a>
-            </div>
-        </li>
+    <li class="<% if (page_name === 'list_inscriptions') { %>active<% } %>">
+      <a href="/admin/inscriptions"
+        ><i class="fa fa-list-ol"></i>Liste Inscription</a
+      >
+    </li>
 
-        <li class="<% if (page_name === 'depts') { %>
-            dropdown active
-            <%} else { %>
-            dropdown
-            <% } %>">
-            <a class="ddbtn" href="#"><i class="fa fa-school"></i>Discipline</a>
-            <div class="dropdown-content">
-                <a href="/admin/addDept">Ajouter Discipline</a>
-                <a href="/admin/getDept">Paramètre Discipline</a>
-            </div>
-        </li>
-
-
-        <hr>
-        <li class="<% if (page_name === 'settings') { %>
-            dropup active
-            <%} else { %>
-                dropup
-            <% } %>">
-            <a class="ddbtn" href="#"><i class="fa fa-cog"></i>Paramètre</a>
-            <div class="dropup-content">
-                <a href="/admin/info_settings">Paramètre Information</a>
-                <a href="/admin/password_settings">Paramètre mot De Passe</a>
-            </div>
-        </li>
-        <li>
-            <a href="/admin/logout"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>
-        </li>
-    </ul>
+    <hr />
+    <li
+      class="<% if (page_name === 'settings') { %> dropup active <%} else { %> dropup <% } %>"
+    >
+      <a class="ddbtn" href="#"><i class="fa fa-cog"></i>Paramètre</a>
+      <div class="dropup-content">
+        <a href="/admin/info_settings">Paramètre Information</a>
+        <a href="/admin/password_settings">Paramètre mot De Passe</a>
+      </div>
+    </li>
+    <li>
+      <a href="/admin/logout"><i class="fa fa-sign-out-alt"></i>Déconnexion</a>
+    </li>
+  </ul>
 </aside>
 
-<div id="navbar-wrapper" style="position: fixed;">
-    <div><button id="voir">
-            Voir
-        </button></div>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="#" class="navbar-brand" id="sidebar-toggle"><i class="fa fa-bars"></i></a>
-            </div>
-        </div>
-    </nav>
-</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Une inscription vient d'etre faite... !
-
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-footer">
-                <p><a id="lien_inscription" class="link-underline-dark">Voir</a></p>
-
-            </div>
-        </div>
+<div id="navbar-wrapper" style="position: fixed">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a href="#" class="navbar-brand" id="sidebar-toggle"
+          ><i class="fa fa-bars"></i
+        ></a>
+      </div>
     </div>
+  </nav>
+</div>
+<div
+  class="modal fade"
+  id="myModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Une inscription vient d'etre faite... !
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <p><a id="lien_inscription" class="link-underline-dark">Voir</a></p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="assets/js/jquery.min.js"></script>
@@ -141,22 +144,22 @@
 <script src="assets/js/jquery.ajaxchimp.min.js"></script>
 
 <script type="module">
-    import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+  import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
 
-    const socket = io("http://localhost:5000");
+  const socket = io("http://localhost:5000");
 
-    socket.on("connect_error", (error) => {
-        console.error("Failed to connect to server:", error);
-    });
+  socket.on("connect_error", (error) => {
+    console.error("Failed to connect to server:", error);
+  });
 
-    socket.on("connect", () => {
-        console.log("Connected to server");
+  socket.on("connect", () => {
+    console.log("Connected to server");
+  });
 
-        socket.on("server_to_admin", function (data) {
-            console.info(`Admin received: ${socketio.id} says: "${data}"`);
-            const data = JSON.parse(data)
-            $("#lien_inscription").attr("href", `inscription/${data.id}`)
-            $('#myModal').modal('show');
-        })
-    });
+  socket.on("server_to_admin", function (data) {
+    console.info(`Admin received: ${socketio.id} says: "${data}"`);
+    const data = JSON.parse(data);
+    $("#lien_inscription").attr("href", `inscription/${data.id}`);
+    $("#myModal").modal("show");
+  });
 </script>

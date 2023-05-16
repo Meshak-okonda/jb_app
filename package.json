@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -38,5 +39,9 @@
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "prettier": "2.8.8",
+    "prettier-plugin-ejs": "^0.0.10"
   }
 }

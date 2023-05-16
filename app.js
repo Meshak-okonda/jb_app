@@ -1,12 +1,12 @@
-const path = require('path');
-const env = require('dotenv');
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const flash = require('connect-flash');
-const session = require('express-session');
-const cors = require('cors');
-const methodOverride = require('method-override');
+const path = require("path");
+const env = require("dotenv");
+const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const flash = require("connect-flash");
+const session = require("express-session");
+const cors = require("cors");
+const methodOverride = require("method-override");
 const fileUpload = require("express-fileupload");
 const { existsSync } = require("fs");
 const app = express();
@@ -96,4 +96,3 @@ server.listen(PORT || 5000, () => {
   console.log(`Server started @ ${PORT || 5000}`);
   console.log(`Socket App listen on : ws://localhost:${PORT || 5000}`);
 });
-

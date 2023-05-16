@@ -5,47 +5,47 @@ $(document).ready(function () {
   let month = (today.getMonth() + 1).toString();
   let day = today.getDate().toString();
   if (month.length == 1) {
-    month = '0' + month;
+    month = "0" + month;
   }
   if (day.length == 1) {
-    day = '0' + day;
+    day = "0" + day;
   }
-  let date = year + '-' + month + '-' + day;
-  $('#date-input').val(date);
+  let date = year + "-" + month + "-" + day;
+  $("#date-input").val(date);
 
   // Date onChange handle
-  $('#date-input').change(function () {
-    const attendance_date = $('#date-input').val();
+  $("#date-input").change(function () {
+    const attendance_date = $("#date-input").val();
     $("input[type='checkbox']").each(function () {
-      const isPresent = $(this).prop('checked');
+      const isPresent = $(this).prop("checked");
     });
   });
 
   //   Mark all present button
-  $('#mark-all-present').click(function () {
+  $("#mark-all-present").click(function () {
     $("input[type='checkbox']").each(function () {
-      const s_id = $(this).attr('id');
-      $(`input[name=${s_id}]`).val('True');
-      $(this).prop('checked', true);
+      const s_id = $(this).attr("id");
+      $(`input[name=${s_id}]`).val("True");
+      $(this).prop("checked", true);
     });
   });
   //   Mark all absent button
-  $('#mark-all-absent').click(function () {
+  $("#mark-all-absent").click(function () {
     $("input[type='checkbox']").each(function () {
-      const s_id = $(this).attr('id');
-      $(`input[name=${s_id}]`).val('False');
-      $(this).prop('checked', false);
+      const s_id = $(this).attr("id");
+      $(`input[name=${s_id}]`).val("False");
+      $(this).prop("checked", false);
     });
   });
 
   // onClick checkbox toggle
   $("input[type='checkbox']").click(function () {
-    const s_id = $(this).attr('id');
+    const s_id = $(this).attr("id");
     let isPresent = $(`input[name=${s_id}]`).val();
-    if (isPresent == 'False') {
-      isPresent = 'True';
+    if (isPresent == "False") {
+      isPresent = "True";
     } else {
-      isPresent = 'False';
+      isPresent = "False";
     }
     $(`input[name=${s_id}]`).val(isPresent);
   });

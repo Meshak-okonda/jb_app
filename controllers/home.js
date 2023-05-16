@@ -1,8 +1,8 @@
-const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const multer = require('multer');
-const path = require('path');
+const mysql = require("mysql");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const multer = require("multer");
+const path = require("path");
 const { existsSync } = require("fs");
 require("dotenv").config();
 const { io } = require("socket.io-client");
@@ -164,7 +164,6 @@ exports.submitInscriptionUpdate = (req, res) => {
     // await sendEMail(subject, message, email);
   });
 };
-
 
 exports.getInscriptionDetails = (req, res, next) => {
   const { id } = req.params;

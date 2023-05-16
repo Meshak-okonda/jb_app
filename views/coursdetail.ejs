@@ -1,52 +1,70 @@
-<%- include('./Includes/begin.ejs') %>
-<%- include('./Includes/navbar.ejs') %>
+<html>
+  <%- include('./Includes/begin.ejs') %>
+  <%- include('./Includes/navbar.ejs') %>
 
-<div class="elements-tab">
+  <div class="elements-tab">
     <!-- PURCHASE-ONLINE-AREA START -->
-    <div class="purchase-online-area  pt-80 pb-30">
+    <div class="purchase-online-area pt-80 pb-30">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="elements-section-title mb-30 mt-30">
+              <h4>
+                Le monde évolue, votre métier aussi. Vous ressentez le besoin de
+                vous former ? L'Institut Paul Hankar vous propose plusieurs
+                formations innovantes et de qualité.
+              </h4>
+            </div>
+          </div>
+        </div>
+
         <div class="container">
-             <div class="row">
-                <div class="col-12">
-                    <div class="elements-section-title mb-30 mt-30">
-                        <h4>Le monde évolue, votre métier aussi. Vous ressentez le besoin de vous former ?  L'Institut Paul Hankar vous propose plusieurs formations innovantes et de qualité.</h4>
-
-                    </div>
-                </div>
+          <div class="row">
+            <div class="col-md-6">
+              <img
+                src="<%= course.image %>"
+                class="img-fluid"
+                alt="<%= course.name %>"
+              />
             </div>
-
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6">
-                  <img src="<%= course.image %>" class="img-fluid" alt="<%= course.name %>">
-                </div>
-                <div class="col-md-6">
-                  <h1><%= course.name %></h1>
-                  <p><%= course.description %></p>
-                  <ul>
-                    <li><strong>Type de cours:</strong> <%= course.c_type %></li>
-                    <li><strong>Crédits:</strong> <%= course.credits %></li>
-                  </ul>
-                  <a href="/inscriptions/<%= course.c_id %> " class="btn btn-primary">S'inscrire</a>
-                </div>
-              </div>
+            <div class="col-md-6">
+              <h1><%= course.name %></h1>
+              <p><%= course.description %></p>
+              <ul>
+                <li>
+                  <strong>Type de cours:</strong>
+                  <%= course.c_type %>
+                </li>
+                <li>
+                  <strong>Crédits:</strong>
+                  <%= course.credits %>
+                </li>
+              </ul>
+              <a
+                href="/inscriptions/<%= course.c_id %> "
+                class="btn btn-primary"
+                >S'inscrire</a
+              >
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/owl.carousel.min.js"></script>
+  <script src="assets/js/waypoints.min.js"></script>
+  <script src="assets/js/jquery.counterup.min.js"></script>
+  <script src="assets/js/TweenMax.min.js"></script>
+  <script src="assets/js/wow.js"></script>
+  <script src="assets/js/jquery.magnific-popup.min.js"></script>
+  <script src="assets/js/countdown.min.js"></script>
+  <script src="assets/js/vegas.min.js"></script>
+  <script src="assets/js/jquery.validate.min.js"></script>
+  <script src="assets/js/jquery.ajaxchimp.min.js"></script>
 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/waypoints.min.js"></script>
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/TweenMax.min.js"></script>
-    <script src="assets/js/wow.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/countdown.min.js"></script>
-    <script src="assets/js/vegas.min.js"></script>
-    <script src="assets/js/jquery.validate.min.js"></script>
-    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
-
-    <!-- template scripts -->
-    <script src="assets/js/theme.js"></script>
-</body>
-
+  <!-- template scripts -->
+  <script src="assets/js/theme.js"></script>
 </html>

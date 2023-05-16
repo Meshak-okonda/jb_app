@@ -1,18 +1,18 @@
-const express = require('express');
-const homeController = require('../controllers/home');
+const express = require("express");
+const homeController = require("../controllers/home");
 
 const router = express.Router();
-router.get('/', homeController.getLanding);
+router.get("/", homeController.getLanding);
 
-router.get('/index', homeController.getIndex);
+router.get("/index", homeController.getIndex);
 
-router.get('/About', homeController.getAbout);
+router.get("/About", homeController.getAbout);
 
-router.get('/formations', homeController.getFormations);
+router.get("/formations", homeController.getFormations);
 
-router.get('/coursdetail/:id', homeController.getCoursDetail);
+router.get("/coursdetail/:id", homeController.getCoursDetail);
 
-router.get('/unauthorized', homeController.getError403);
+router.get("/unauthorized", homeController.getError403);
 
 // Route pour afficher le formulaire d'inscription
 router.get("/inscriptions/:id", homeController.showInscriptionForm);
@@ -29,6 +29,6 @@ router.get("/inscriptions/view/:id", homeController.getInscriptionDetails);
 router.get("/merci", homeController.merci);
 
 // should be in last
-router.use('/', homeController.getError404);
+router.use("/", homeController.getError404);
 
 module.exports = router;

@@ -1,122 +1,136 @@
 <body>
   <%- include('./Includes/begin.ejs') %>
-    <%- include('./Includes/navbar.ejs') %>
-      <main class="main" style="margin-top: 3vh">
-        <% switch(results.status) { case 'progress' : %>
-          <div class="container-fluid landingpage">
-            <div class="nameblock">
-              <h1 class="text-center"> Votre souscription est :
-                <span class="icon-like" style="color: red">En cours d'évalution</span>
-              </h1>
-            </div>
-            <div>
-              <div>
-                Nom: <strong>
-                  <%= results.name %>
-                </strong>
-              </div>
-              <div>
-                Prenom: <strong>
-                  <%= results.last_name %>
-                </strong>
-              </div>
-              <div>
-                E-mail: <strong>
-                  <%= results.email %>
-                </strong>
-              </div>
-              <div>
-                Adresse: <strong>
-                  <%= results.adress %>
-                </strong>
-              </div>
-              <div>
-                voir le diplome: <a href="/files/<%= results.diplome_name %>" target="_blank">
-                  Le lien
-                </a>
-              </div>
-            </div>
-          </div>
-          </div>
-          <% break; %>
-            <%case 'accepted' : %>
-              <div class="container-fluid landingpage">
-                <div class="nameblock">
-
-                  <h1 class="text-center"> Votre souscription est :
-                    <span class="icon-like" style="color: red">Acceptée</span>
-                  </h1>
-                </div>
-                <div>
-                  <div>
-                    Nom: <strong>
-                      <%= results.name %>
-                    </strong>
-                  </div>
-                  <div>
-                    Prenom: <strong>
-                      <%= results.last_name %>
-                    </strong>
-                  </div>
-                  <div>
-                    E-mail: <strong>
-                      <%= results.email %>
-                    </strong>
-                  </div>
-                  <div>
-                    Adresse: <strong>
-                      <%= results.adress %>
-                    </strong>
-                  </div>
-                  <div>
-                    voir le diplome: <a href="/files/<%= results.diplome_name %>" target="_blank">
-                      Le lien
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <% break; %>
-                <% case 'not_accepted' : %>
-                  <div class="container-fluid landingpage">
-                    <div class="nameblock">
-
-                      <h1 class="text-center"> Votre souscription est :
-                        <span class="icon-like" style="color: red">Non Acceptée</span>
-                      </h1>
-                    </div>
-                    <div>
-                      <div>
-                        Nom: <strong>
-                          <%= results.name %>
-                        </strong>
-                      </div>
-                      <div>
-                        Prenom: <strong>
-                          <%= results.last_name %>
-                        </strong>
-                      </div>
-                      <div>
-                        E-mail: <strong>
-                          <%= results.email %>
-                        </strong>
-                      </div>
-                    </div>
-                  </div>
-                  <% break; %>
-                    <% case 'more_informations' : %>
-                      <div class="container-fluid landingpage">
-                        <div class="nameblock">
-
-                          <h1 class="text-center"> Votre souscription est :
-                            <span class="icon-like" style="color: red">Non Acceptée</span>
-                          </h1>
-                        </div>
-                        <h4 class="text-center">Votre souscription semble etre incomplete veillez nous contact par <a
-                            href="to:+24378728728">+24378728728</a>. pour plus d'informations</h4>
-                      </div>
-                      </div>
-                      <% break; %>
-                        <% } %>
-      </main>
-      <%- include('./Includes/end.ejs') %>
+  <%- include('./Includes/navbar.ejs') %>
+  <main class="main" style="margin-top: 3vh">
+    <% switch(results.status) { case 'progress' : %>
+    <div class="container-fluid landingpage">
+      <div class="nameblock">
+        <h1 class="text-center">
+          Votre souscription est :
+          <span class="icon-like" style="color: red">En cours d'évalution</span>
+        </h1>
+      </div>
+      <div>
+        <div>
+          Nom:
+          <strong>
+            <%= results.name %>
+          </strong>
+        </div>
+        <div>
+          Prenom:
+          <strong>
+            <%= results.last_name %>
+          </strong>
+        </div>
+        <div>
+          E-mail:
+          <strong>
+            <%= results.email %>
+          </strong>
+        </div>
+        <div>
+          Adresse:
+          <strong>
+            <%= results.adress %>
+          </strong>
+        </div>
+        <div>
+          voir le diplome:
+          <a href="/files/<%= results.diplome_name %>" target="_blank">
+            Le lien
+          </a>
+        </div>
+      </div>
+    </div>
+    <% break; %>
+    <%case 'accepted' : %>
+    <div class="container-fluid landingpage">
+      <div class="nameblock">
+        <h1 class="text-center">
+          Votre souscription est :
+          <span class="icon-like" style="color: red">Acceptée</span>
+        </h1>
+      </div>
+      <div>
+        <div>
+          Nom:
+          <strong>
+            <%= results.name %>
+          </strong>
+        </div>
+        <div>
+          Prenom:
+          <strong>
+            <%= results.last_name %>
+          </strong>
+        </div>
+        <div>
+          E-mail:
+          <strong>
+            <%= results.email %>
+          </strong>
+        </div>
+        <div>
+          Adresse:
+          <strong>
+            <%= results.adress %>
+          </strong>
+        </div>
+        <div>
+          voir le diplome:
+          <a href="/files/<%= results.diplome_name %>" target="_blank">
+            Le lien
+          </a>
+        </div>
+      </div>
+    </div>
+    <% break; %>
+    <% case 'not_accepted' : %>
+    <div class="container-fluid landingpage">
+      <div class="nameblock">
+        <h1 class="text-center">
+          Votre souscription est :
+          <span class="icon-like" style="color: red">Non Acceptée</span>
+        </h1>
+      </div>
+      <div>
+        <div>
+          Nom:
+          <strong>
+            <%= results.name %>
+          </strong>
+        </div>
+        <div>
+          Prenom:
+          <strong>
+            <%= results.last_name %>
+          </strong>
+        </div>
+        <div>
+          E-mail:
+          <strong>
+            <%= results.email %>
+          </strong>
+        </div>
+      </div>
+    </div>
+    <% break; %>
+    <% case 'more_informations' : %>
+    <div class="container-fluid landingpage">
+      <div class="nameblock">
+        <h1 class="text-center">
+          Votre souscription est :
+          <span class="icon-like" style="color: red">Non Acceptée</span>
+        </h1>
+      </div>
+      <h4 class="text-center">
+        Votre souscription semble etre incomplete veillez nous contact par
+        <a href="to:+24378728728">+24378728728</a>. pour plus d'informations
+      </h4>
+    </div>
+    <% break; %>
+    <% } %>
+  </main>
+  <%- include('./Includes/end.ejs') %>
 </body>

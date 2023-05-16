@@ -1,0 +1,77 @@
+<%- include('../Includes/begin.ejs') %>
+
+  <link rel="stylesheet" href="../CSS/admin-dashboard.css" />
+
+  <div class="container-fluid">
+    <div id="wrapper">
+      <%- include('../Includes/admin_nav.ejs') %>
+
+        <section id="content-wrapper">
+          <main role="main" class="pt-5 main">
+            <div class="main-content">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">heure</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Cours</th>
+                    <th scope="col">Diplome</th>
+                    <th scope="col">Voir plus</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(let i=0; i< results.length;i++ ){ let item=results[i]; %>
+                    <tr>
+                      <th scope="row">
+                        <%= i +1 %>
+                      </th>
+                      <td>
+                        <%= item.name %>
+                      </td>
+                      <td>
+                        <%= item.last_name %>
+                      </td>
+                      <td>
+                        <%= item.course_id %>
+                      </td>
+                      <td>
+                        <a href="/files/<%= item.diplome_name %>" target="_blank" rel="noopener noreferrer">Diplome</a>
+                      </td>
+                      <td>
+                        <a href="/admin/inscription/<%= item.id %>" target="_blank" rel="noopener noreferrer">Voir
+                          plus</a>
+                      </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+              </table>
+
+              <div class="d-flex" style="justify-content: center;">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <% const totalItems=count - 1; const itemsPerPage=10; const totalPages=Math.ceil(totalItems /
+                      itemsPerPage); for (let i=1; i <=totalPages; i++) { if (i===page) { %>
+                      <li class="page-item">
+                        <a class="page-link active" href="?page=<%= i %>">
+                          <%= i %>
+                        </a>
+                      </li>
+                      <% } else { %>
+                        <li class="page-item">
+                          <a class="page-link" href="?page=<%= i %>">
+                            <%= i %>
+                          </a>
+                        </li>
+                        <% } } %>
+                  </ul>
+                </nav>
+              </div>
+
+            </div>
+          </main>
+        </section>
+    </div>
+  </div>
+
+  <%- include('../Includes/admin_end.ejs') %>

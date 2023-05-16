@@ -1,53 +1,64 @@
-<%- include('./Includes/begin.ejs') %>
-<%- include('./Includes/navbar.ejs') %>
+<html>
+  <%- include('./Includes/begin.ejs') %>
+  <%- include('./Includes/navbar.ejs') %>
 
-<div class="elements-tab">
+  <div class="elements-tab">
     <!-- PURCHASE-ONLINE-AREA START -->
-    <div class="purchase-online-area  pt-80 pb-30 main">
-        <div class="container">
-             <div class="row">
-                <div class="col-12">
-                    <div class="elements-section-title mb-30 mt-30">
-                        <h4>Le monde évolue, votre métier aussi. Vous ressentez le besoin de vous former ?  L'Institut Paul Hankar vous propose plusieurs formations innovantes et de qualité.</h4>
-
-                    </div>
-                </div>
+    <div class="purchase-online-area pt-80 pb-30 main">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="elements-section-title mb-30 mt-30">
+              <h4>
+                Le monde évolue, votre métier aussi. Vous ressentez le besoin de
+                vous former ? L'Institut Paul Hankar vous propose plusieurs
+                formations innovantes et de qualité.
+              </h4>
             </div>
-            <div class="container-fluid">
-                <div class="row g-3">
-                    <% course.forEach((cours) => { %>
-                        <div class="col-md-4 col-lg-3">
-                          <div class="card mx-auto">
-                            <img src="<%= cours.image %>" class="card-img-top" alt="...">
-                            <div class="card-body">
-                              <h5 class="card-title"><%= cours.name %></h5>
-                              <p class="card-text"><%= cours.c_type %></p>
-                              <h5 class="card-text"><%= cours.credits %> crédits</h5>
-                              <a href="/coursdetail/<%= cours.c_id %>" class="btn btn-primary">En Savoir Plus</a>
-                            </div>
-                          </div>
-                        </div>
-                      <% }) %>
+          </div>
+        </div>
+        <div class="container-fluid">
+          <div class="row g-3">
+            <% course.forEach((cours) => { %>
+            <div class="col-md-4 col-lg-3">
+              <div class="card mx-auto">
+                <img src="<%= cours.image %>" class="card-img-top" alt="..." />
+                <div class="card-body">
+                  <h5 class="card-title"><%= cours.name %></h5>
+                  <p class="card-text"><%= cours.c_type %></p>
+                  <h5 class="card-text">
+                    <%= cours.credits %>
+                    crédits
+                  </h5>
+                  <a
+                    href="/coursdetail/<%= cours.c_id %>"
+                    class="btn btn-primary"
+                    >En Savoir Plus</a
+                  >
                 </div>
               </div>
-              <%- include('./Includes/end.ejs') %>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('./Includes/end.ejs') %>
 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/waypoints.min.js"></script>
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/TweenMax.min.js"></script>
-    <script src="assets/js/wow.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/countdown.min.js"></script>
-    <script src="assets/js/vegas.min.js"></script>
-    <script src="assets/js/jquery.validate.min.js"></script>
-    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/owl.carousel.min.js"></script>
+  <script src="assets/js/waypoints.min.js"></script>
+  <script src="assets/js/jquery.counterup.min.js"></script>
+  <script src="assets/js/TweenMax.min.js"></script>
+  <script src="assets/js/wow.js"></script>
+  <script src="assets/js/jquery.magnific-popup.min.js"></script>
+  <script src="assets/js/countdown.min.js"></script>
+  <script src="assets/js/vegas.min.js"></script>
+  <script src="assets/js/jquery.validate.min.js"></script>
+  <script src="assets/js/jquery.ajaxchimp.min.js"></script>
 
-    <!-- template scripts -->
-    <script src="assets/js/theme.js"></script>
-    
-</body>
-
+  <!-- template scripts -->
+  <script src="assets/js/theme.js"></script>
 </html>

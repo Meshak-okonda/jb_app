@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
+const jwt = require("jsonwebtoken");
+const mysql = require("mysql");
 require("dotenv").config();
 
 const { DB_HOST, DB_USER, DB_PASS, DB_DATABASE } = process.env;
@@ -14,7 +14,7 @@ const db = mysql.createConnection({
 
 const selectID = (id) => {
   return new Promise((resolve, reject) => {
-    const sql1 = 'SELECT st_name FROM staff WHERE st_id = ?';
+    const sql1 = "SELECT st_name FROM staff WHERE st_id = ?";
     db.query(sql1, [id], (err, results) => {
       if (err) return reject(err);
       return resolve(results);
@@ -28,18 +28,18 @@ const requireAuth = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET, async (err, result) => {
       if (err) {
         req.flash(
-          'error_msg',
-          'You need to login as STAFF in order to view that source!'
+          "error_msg",
+          "You need to login as STAFF in order to view that source!"
         );
-        res.redirect('/unauthorized');
+        res.redirect("/unauthorized");
       } else {
         const data = await selectID(result.id);
         if (data.length === 0) {
           req.flash(
-            'error_msg',
-            'You need to login as STAFF in order to view that source!'
+            "error_msg",
+            "You need to login as STAFF in order to view that source!"
           );
-          res.redirect('/unauthorized');
+          res.redirect("/unauthorized");
         } else {
           req.user = result.id;
           next();
@@ -48,10 +48,10 @@ const requireAuth = (req, res, next) => {
     });
   } else {
     req.flash(
-      'error_msg',
-      'You need to login as STAFF in order to view that source!'
+      "error_msg",
+      "You need to login as STAFF in order to view that source!"
     );
-    res.redirect('/unauthorized');
+    res.redirect("/unauthorized");
   }
 };
 
@@ -67,7 +67,7 @@ const forwardAuth = (req, res, next) => {
           next();
         } else {
           req.user = result.id;
-          res.redirect('/staff/dashboard');
+          res.redirect("/staff/dashboard");
         }
       }
     });
