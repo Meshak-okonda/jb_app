@@ -334,6 +334,7 @@ exports.postAddStaff = async (req, res, next) => {
       city,
       postalCode,
       contact,
+      password,
     } = req.body;
 
     if (contact.length > 11) {
@@ -341,7 +342,6 @@ exports.postAddStaff = async (req, res, next) => {
       return res.redirect("/admin/addStaff");
     }
 
-    const password = dob.toString().split("-").join("");
     const hashedPassword = await bcrypt.hash(password, 8);
 
     const sql2 = "INSERT INTO staff SET ?";
@@ -459,6 +459,7 @@ exports.getStaffSettings = async (req, res, next) => {
     page_name: "Staff Settings",
   });
 };
+
 exports.postStaffSettings = async (req, res, next) => {
   const {
     old_email,
@@ -471,24 +472,30 @@ exports.postStaffSettings = async (req, res, next) => {
     city,
     postalCode,
     contact,
+    password,
   } = req.body;
 
-  const password = dob.toString().split("-").join("");
-  const hashedPassword = await hashing(password);
+  let hashedPassword = null;
+  if (password) hashedPassword = await hashing(password.trim());
 
-  const sql =
-    "update staff set st_name=?, gender=?, dob=?, email=?, st_address=?, contact=?, password=?, dept_id=? where email=?";
-  await queryParamPromise(sql, [
-    name,
-    gender,
-    dob,
-    email,
-    address + "-" + city + "-" + postalCode,
-    contact,
-    hashedPassword,
-    department,
-    old_email,
-  ]);
+  const sql = `UPDATE staff set st_name=?, gender=?, dob=?, email=?, st_address=?, contact=?, dept_id=?${
+    hashedPassword ? ", password=?" : ""
+  } WHERE email=?`;
+
+  await queryParamPromise(
+    sql,
+    [
+      name,
+      gender,
+      dob,
+      email,
+      address + "-" + city + "-" + postalCode,
+      contact,
+      department,
+      hashedPassword,
+      old_email,
+    ].filter((e) => (e = !null))
+  );
   req.flash("success_msg", "Staff added successfully");
   res.redirect("/admin/getStaff");
 };
@@ -500,13 +507,14 @@ exports.getAddStudent = async (req, res, next) => {
   const results = await zeroParamPromise(sql);
   let departments = [];
   for (let i = 0; i < results.length; ++i) {
-    departments.push(results[i].dept_id);
+    departments.push(results[i]);
   }
   res.render("Admin/Student/addStudent", {
     page_name: "students",
     departments: departments,
   });
 };
+
 exports.postAddStudent = async (req, res, next) => {
   const {
     email,
@@ -516,14 +524,19 @@ exports.postAddStudent = async (req, res, next) => {
     department,
     address,
     city,
+    password,
     postalCode,
     contact,
   } = req.body;
-  const password = dob.toString().split("-").join("");
+
+  // hashed password
   const hashedPassword = await hashing(password);
+
+  // first request to sql
   const sql1 =
     "select count(*) as `count`, section from student where section = (select max(section) from student where dept_id = ?) AND dept_id = ?";
   const results = await queryParamPromise(sql1, [department, department]);
+  console.log(results);
   let section = 1;
   if (results[0].count !== 0) {
     if (results[0].count == SECTION_LIMIT) {
@@ -532,7 +545,9 @@ exports.postAddStudent = async (req, res, next) => {
       section = results[0].section;
     }
   }
-  const sql2 = "INSERT INTO STUDENT SET ?";
+
+  // request to database : create student
+  const sql2 = "INSERT INTO student SET ?";
   await queryParamPromise(sql2, {
     s_id: uuidv4(),
     s_name: name,
@@ -609,14 +624,15 @@ exports.getAllStudent = async (req, res, next) => {
 // 3.4 Modify existing students
 exports.getStudentSettings = async (req, res, next) => {
   const studentEmail = req.params.id;
-  const sql1 = "SELECT * FROM STUDENT WHERE email = ?";
+  const sql1 = "SELECT * FROM student WHERE s_id = ?";
   const studentData = await queryParamPromise(sql1, [studentEmail]);
+  console.log(studentData);
   const address = studentData[0].s_address.split("-");
   studentData[0].address = address;
   const results = await zeroParamPromise("SELECT * from department");
   let departments = [];
   for (let i = 0; i < results.length; ++i) {
-    departments.push(results[i].dept_id);
+    departments.push(results[i]);
   }
   res.render("Admin/Student/setStudent", {
     studentData: studentData,
@@ -627,19 +643,22 @@ exports.getStudentSettings = async (req, res, next) => {
 
 exports.postStudentSettings = async (req, res, next) => {
   const {
-    old_email,
+    s_id,
     email,
     dob,
     name,
     gender,
     department,
     address,
+    password,
     city,
     postalCode,
     contact,
   } = req.body;
-  const password = dob.toString().split("-").join("");
-  const hashedPassword = await hashing(password);
+
+  let hashedPassword = null;
+  if (password) hashedPassword = await hashing(password.trim() || null);
+
   const sql1 =
     "select count(*) as `count`, section from student where section = (select max(section) from student where dept_id = ?) AND dept_id = ?";
   const results = await queryParamPromise(sql1, [department, department]);
@@ -651,20 +670,26 @@ exports.postStudentSettings = async (req, res, next) => {
       section = results[0].section;
     }
   }
-  const sql2 =
-    "UPDATE STUDENT SET s_name = ?, gender = ?, dob = ?,email = ?, s_address = ?, contact = ?, password = ?, section = ?, dept_id = ? WHERE email = ?";
-  await queryParamPromise(sql2, [
-    name,
-    gender,
-    dob,
-    email,
-    address + "-" + city + "-" + postalCode,
-    contact,
-    hashedPassword,
-    section,
-    department,
-    old_email,
-  ]);
+  const sql2 = `UPDATE student SET s_name = ?, gender = ?, dob = ?,email = ?, s_address = ?, contact = ?, section = ?, dept_id = ? ${
+    hashedPassword ? ", password = ?" : ""
+  } WHERE s_id = ?`;
+
+  // filter hashedPassword in value send to database
+  await queryParamPromise(
+    sql2,
+    [
+      name,
+      gender,
+      dob,
+      email,
+      address + "-" + city + "-" + postalCode,
+      contact,
+      section,
+      department,
+      hashedPassword,
+      s_id,
+    ].filter((e) => e !== null)
+  );
   req.flash("success_msg", "Student updated successfully");
   res.redirect("/admin/getAllStudents");
 };

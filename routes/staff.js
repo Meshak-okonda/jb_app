@@ -10,6 +10,8 @@ router.post("/login", controller.postLogin);
 
 router.get("/dashboard", requireAuth, controller.getDashboard);
 router.get("/profile", requireAuth, controller.getProfile);
+router.get("/settings/:id", requireAuth, controller.getProfileSetting);
+router.post("/settings", requireAuth, controller.postProfileSetting);
 router.get("/logout", requireAuth, controller.getLogout);
 
 router.get("/student-attendance", requireAuth, controller.getAttendance);

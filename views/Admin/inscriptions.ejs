@@ -12,7 +12,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">heure</th>
+                <th scope="col">Numero</th>
                 <th scope="col">Prenom</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Cours</th>
@@ -50,19 +50,13 @@
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <% const totalItems=count - 1; const itemsPerPage=10; const totalPages=Math.ceil(totalItems /
-                      itemsPerPage); for (let i=1; i <=totalPages; i++) { if (i===page) { %>
+                      itemsPerPage); for (let i=1; i <=totalPages; i++) {  %>
                 <li class="page-item">
-                  <a class="page-link active" href="?page=<%= i %>">
+                  <a class="<%= i === page ? " page-link back" : "page-link" %>" href="?page=<%= i %>">
                     <%= i %>
                   </a>
                 </li>
-                <% } else { %>
-                  <li class="page-item">
-                    <a class="page-link" href="?page=<%= i %>">
-                      <%= i %>
-                    </a>
-                  </li>
-                  <% } } %>
+                <%} %>
                     </ul>
                     </nav>
                     </div>
@@ -84,4 +78,10 @@
     });
 </script>
 
+<style>
+  .back {
+    background: black;
+    color: white;
+  }
+</style>
 <%- include('../Includes/admin_end.ejs') %>

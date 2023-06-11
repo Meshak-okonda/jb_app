@@ -6,6 +6,15 @@ const mailgun = require("mailgun-js");
 const DOMAIN = process.env.DOMAIN_NAME;
 const mg = mailgun({ apiKey: process.env.MAILGUN_API_KEY, domain: DOMAIN });
 
+const hashing = (password) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, 8, function (err, hashedPassword) {
+      if (err) return reject(err);
+      return resolve(hashedPassword);
+    });
+  });
+};
+
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -43,6 +52,8 @@ exports.postLogin = async (req, res, next) => {
   let errors = [];
   const sql1 = "SELECT * FROM staff WHERE email = ?";
   const users = await queryParamPromise(sql1, [email]);
+
+  console.log(users, await bcrypt.compare(password, users[0].password));
   if (
     users.length === 0 ||
     !(await bcrypt.compare(password, users[0].password))
@@ -86,6 +97,71 @@ exports.getProfile = async (req, res, next) => {
     deptData,
     classData,
     page_name: "profile",
+  });
+};
+
+exports.getProfileSetting = async (req, res, next) => {
+  const staffEmail = req.params.id;
+  const sql1 = "SELECT * FROM staff WHERE email = ?";
+  const staffData = await queryParamPromise(sql1, [staffEmail]);
+  const address = staffData[0].st_address.split("-");
+  staffData[0].address = address;
+  const results = await zeroParamPromise("SELECT * from department");
+  let departments = [];
+  for (let i = 0; i < results.length; ++i) {
+    departments.push(results[i].dept_id);
+  }
+  res.render("Staff/settings", {
+    staffData: staffData,
+    departments: departments,
+    page_name: "Staff Settings",
+  });
+};
+
+exports.postProfileSetting = async (req, res, next) => {
+  const {
+    old_email,
+    email,
+    dob,
+    name,
+    gender,
+    department,
+    address,
+    city,
+    postalCode,
+    contact,
+    password,
+  } = req.body;
+
+  let hashedPassword = null;
+  if (password) hashedPassword = await hashing(password.trim());
+
+  const sql = `UPDATE staff set st_name=?, gender=?, dob=?, email=?, st_address=?, contact=?, dept_id=?${
+    hashedPassword ? ", password=?" : ""
+  } WHERE email=?`;
+
+  await queryParamPromise(
+    sql,
+    [
+      name,
+      gender,
+      dob,
+      email,
+      address + "-" + city + "-" + postalCode,
+      contact,
+      department,
+      hashedPassword,
+      old_email,
+    ].filter((e) => (e = !null))
+  );
+
+  const sql1 = "SELECT * FROM staff WHERE st_id = ?";
+  const user = req.user;
+  const data = await queryParamPromise(sql1, [user]);
+  res.render("Staff/dashboard", {
+    user: data[0],
+    page_name: "overview",
+    msg: "Profile mis à jour avec succès",
   });
 };
 

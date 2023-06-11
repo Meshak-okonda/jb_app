@@ -86,6 +86,21 @@
                           </div>
                           <div class="col-lg-6">
                             <div class="form-group focused">
+                              <label class="form-control-label" for="name"
+                                >Mot de passe</label
+                              >
+                              <input
+                                type="text"
+                                id="name"
+                                name="password"
+                                class="form-control form-control-alternative"
+                                placeholder="Mot de passe"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-group focused">
                               <label class="form-control-label" for="gender"
                                 >Gender</label
                               >
@@ -117,7 +132,9 @@
                               required
                             >
                               <% for(const department of departments) { %>
-                              <option><%= department %></option>
+                              <option value="<%= department.dept_id  %>">
+                                <%= department.d_name %>
+                              </option>
                               <% } %>
                             </select>
                           </div>

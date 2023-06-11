@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `student` (
 	`password` VARCHAR(255) NOT NULL,
 	`section` INT NOT NULL,
 	`joining_date` DATE DEFAULT(CURRENT_DATE),
-	`dept_id` VARCHAR(255),	
+	`dept_id` VARCHAR(255),
 	PRIMARY KEY (`s_id`)
 );
 

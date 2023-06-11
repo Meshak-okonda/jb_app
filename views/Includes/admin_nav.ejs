@@ -67,16 +67,24 @@
       </div>
     </li>
 
-    <li style="position: relative" class="<% if (page_name === 'list_inscriptions') { %>active<% } %>">
-      <a href="/admin/inscriptions?page=1"><i class="fa fa-list-ol"></i>Inscriptions</a>
-      <span style="
-                  position: absolute;
-                  right: 26%;
-                  top: -7px;
-                  font-size: 1.2rem;
-                  color: red;
-                  font-weight: bold;
-                " id="number_new">0</span
+    <li
+      style="position: relative"
+      class="<% if (page_name === 'list_inscriptions') { %>active<% } %>"
+    >
+      <a href="/admin/inscriptions?page=1"
+        ><i class="fa fa-list-ol"></i>Inscriptions</a
+      >
+      <span
+        style="
+          position: absolute;
+          right: 26%;
+          top: -7px;
+          font-size: 1.2rem;
+          color: red;
+          font-weight: bold;
+        "
+        id="number_new"
+        >0</span
       >
     </li>
 
@@ -139,16 +147,16 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script type="module">
-      setInterval(async () => {
-        fetch("/numbers", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((e) => e.json())
-          .then((e) => {
-            $("#number_new").text(e);
-          });
-    }, 5000);
+  setInterval(async () => {
+    fetch("/numbers", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((e) => e.json())
+      .then((e) => {
+        $("#number_new").text(e);
+      });
+  }, 5000);
 </script>

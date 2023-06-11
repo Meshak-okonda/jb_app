@@ -62,8 +62,8 @@
                             <div class="row">
                               <input
                                 hidden
-                                value="<%= studentData[0].email %>"
-                                name="old_email"
+                                value="<%= studentData[0].s_id %>"
+                                name="s_id"
                               />
                             </div>
                             <div class="row">
@@ -134,6 +134,20 @@
                                   </select>
                                 </div>
                               </div>
+                              <div class="col-lg-6">
+                                <div class="form-group focused">
+                                  <label class="form-control-label" for="name"
+                                    >Mot de passe</label
+                                  >
+                                  <input
+                                    type="text"
+                                    id="name"
+                                    name="password"
+                                    class="form-control form-control-alternative"
+                                    placeholder="Mot de passe"
+                                  />
+                                </div>
+                              </div>
                             </div>
                           </div>
                           <hr class="my-4" />
@@ -156,7 +170,9 @@
                                   value="<%= studentData[0].dept_id %>"
                                 >
                                   <% for(const department of departments) { %>
-                                  <option><%= department %></option>
+                                  <option value="<%= department.dept_id  %>">
+                                    <%= department.d_name %>
+                                  </option>
                                   <% } %>
                                 </select>
                               </div>
