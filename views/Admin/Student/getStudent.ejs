@@ -42,6 +42,20 @@
                       <h6 class="heading-small text-muted mb-4">
                         STUDENT INFORMATION
                       </h6>
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                          <li class="page-item">
+                            <a class="page-link back" href="/admin/getAllStudents">
+                              Liste Etudiants
+                            </a>
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link" href="/admin/getAllDeleteStudents">
+                              Liste Etudiants Supprimé
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
                       <div class="table-responsive">
                         <table class="table">
                           <thead class="thead-dark">
@@ -51,6 +65,7 @@
                               <th scope="col">Name</th>
                               <th scope="col">Class</th>
                               <th scope="col">Manage Student</th>
+                              <th scope="col">Delete</th>
                             </tr>
                           </thead>
                           <tbody id="studentTable">
@@ -74,6 +89,12 @@
                                   class="btn btn-sm btn-primary"
                                   >Settings</a
                                 >
+                              </td>
+                              <td>
+                                <form action="/admin/student/delete" method="post">
+                                  <input type="hidden" name="id" value="<%= data[i].s_id %>">
+                                  <button class="btn btn-sm btn-primary">Delete</>
+                                </form>
                               </td>
                             </tr>
                             <% } %>

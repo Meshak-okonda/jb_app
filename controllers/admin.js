@@ -58,7 +58,6 @@ exports.postLogin = async (req, res, next) => {
   const sql1 = "SELECT * FROM admin WHERE email = ?";
   const users = await queryParamPromise(sql1, [email]);
 
-  console.log(users);
   if (
     users.length === 0 ||
     !(await bcrypt.compare(password, users[0]?.password))
@@ -317,6 +316,30 @@ exports.getAddStaff = async (req, res, next) => {
   });
 };
 
+exports.getDeleteStaff = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+  const sql = "select * from staff where s_delete = true";
+  const results = await queryParamPromise(sql, [id]);
+  return res.render("Admin/Staff/getDeleteStaff", {
+    data: results || [],
+    page_name: "staff",
+  });
+};
+
+exports.postDeleteStaff = async (req, res, next) => {
+  const id = req.body.id;
+  const sql = "UPDATE staff SET s_delete = true WHERE st_id = ?";
+  await queryParamPromise(sql, [id]);
+  res.redirect("/admin/getAllStaffs");
+};
+
+exports.postReverseDeleteStaff = async (req, res, next) => {
+  const id = req.body.id;
+  const sql = "UPDATE staff SET s_delete = false WHERE st_id = ?";
+  await queryParamPromise(sql, [id]);
+  res.redirect("/admin/getDeletestaff");
+};
+
 exports.postAddStaff = async (req, res, next) => {
   const { email } = req.body;
   const sql1 = "SELECT count(*) as `count` from staff where email = ?";
@@ -410,7 +433,8 @@ exports.postRelevantStaff = async (req, res, next) => {
       for (const staff_id of staff_ids) {
         staffs.push(staff_id.st_id);
       }
-      const sql4 = "select * from staff where st_id in (?)";
+      const sql4 =
+        "select * from staff where st_id in (?) and s_delete = false";
       const results = await queryParamPromise(sql4, [staffs]);
       return res.render("Admin/Staff/getStaff", {
         data: results,
@@ -423,7 +447,7 @@ exports.postRelevantStaff = async (req, res, next) => {
     }
   } else if (department !== "None") {
     // All teachers from particular department
-    const sql = "select * from staff where dept_id = ?";
+    const sql = "select * from staff where dept_id = ? and s_delete = false";
     const results = await queryParamPromise(sql, [department]);
     return res.render("Admin/Staff/getStaff", {
       data: results,
@@ -436,13 +460,31 @@ exports.postRelevantStaff = async (req, res, next) => {
 
 // 2.3 Get all staffs
 exports.getAllStaff = async (req, res, next) => {
-  const sql = "SELECT * FROM staff";
+  const sql = "SELECT * FROM staff where s_delete = false";
   const results = await zeroParamPromise(sql);
   res.render("Admin/Staff/getStaff", { data: results, page_name: "staff" });
 };
 
 // 2.4 Modify existing staffs
 exports.getStaffSettings = async (req, res, next) => {
+  const staffEmail = req.params.id;
+  const sql1 = "SELECT * FROM staff WHERE email = ?";
+  const staffData = await queryParamPromise(sql1, [staffEmail]);
+  const address = staffData[0].st_address.split("-");
+  staffData[0].address = address;
+  const results = await zeroParamPromise("SELECT * from department");
+  let departments = [];
+  for (let i = 0; i < results.length; ++i) {
+    departments.push(results[i].dept_id);
+  }
+  res.render("Admin/Staff/setStaff", {
+    staffData: staffData,
+    departments: departments,
+    page_name: "Staff Settings",
+  });
+};
+
+exports.postStaffSettings = async (req, res, next) => {
   const staffEmail = req.params.id;
   const sql1 = "SELECT * FROM staff WHERE email = ?";
   const staffData = await queryParamPromise(sql1, [staffEmail]);
@@ -502,6 +544,31 @@ exports.postStaffSettings = async (req, res, next) => {
 
 // 3. STUDENTS
 // 3.1 Add student
+
+exports.getDeleteStudent = async (req, res, next) => {
+  const sql = "select * from student where s_delete = true";
+  const results = await queryParamPromise(sql);
+  return res.render("Admin/Student/getDeleteStudent", {
+    data: results || [],
+    page_name: "students",
+  });
+};
+
+exports.postDeleteStudent = async (req, res, next) => {
+  const id = req.body.id;
+  console.log(req.body);
+  const sql = "UPDATE student SET s_delete = true WHERE s_id = ?";
+  await queryParamPromise(sql, [id]);
+  res.redirect("/admin/getAllStudents");
+};
+
+exports.postReverseDeleteStudent = async (req, res, next) => {
+  const id = req.body.id;
+  const sql = "UPDATE student SET s_delete = false WHERE s_id = ?";
+  await queryParamPromise(sql, [id]);
+  res.redirect("/admin/getAllDeleteStudents");
+};
+
 exports.getAddStudent = async (req, res, next) => {
   const sql = "SELECT * from department";
   const results = await zeroParamPromise(sql);
@@ -536,7 +603,6 @@ exports.postAddStudent = async (req, res, next) => {
   const sql1 =
     "select count(*) as `count`, section from student where section = (select max(section) from student where dept_id = ?) AND dept_id = ?";
   const results = await queryParamPromise(sql1, [department, department]);
-  console.log(results);
   let section = 1;
   if (results[0].count !== 0) {
     if (results[0].count == SECTION_LIMIT) {
@@ -613,7 +679,7 @@ exports.postRelevantStudent = async (req, res, next) => {
 
 // 3.3 Get all students
 exports.getAllStudent = async (req, res, next) => {
-  const sql = "SELECT * from student";
+  const sql = "SELECT * from student where s_delete = false";
   const results = await zeroParamPromise(sql);
   res.render("Admin/Student/getStudent", {
     data: results,
@@ -626,7 +692,6 @@ exports.getStudentSettings = async (req, res, next) => {
   const studentEmail = req.params.id;
   const sql1 = "SELECT * FROM student WHERE s_id = ?";
   const studentData = await queryParamPromise(sql1, [studentEmail]);
-  console.log(studentData);
   const address = studentData[0].s_address.split("-");
   studentData[0].address = address;
   const results = await zeroParamPromise("SELECT * from department");
@@ -912,7 +977,7 @@ exports.getAddCourse = async (req, res, next) => {
   });
 };
 exports.postAddCourse = async (req, res, next) => {
-  let { course, semester, department, credits, c_type } = req.body;
+  let { course, semester, department, credits, c_type, image } = req.body;
   const sql1 = "SELECT COUNT(dept_id) AS size FROM course WHERE dept_id = ?";
   const results = await queryParamPromise(sql1, [department]);
   let size = results[0].size + 1;
@@ -925,6 +990,7 @@ exports.postAddCourse = async (req, res, next) => {
     c_type: c_type,
     credits: credits,
     dept_id: department,
+    image,
   });
   req.flash("success_msg", "Course added successfully");
   return res.redirect("/admin/getAllCourses");

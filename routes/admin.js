@@ -45,11 +45,20 @@ router.post("/addStaff", requireAuth, controller.postAddStaff);
 // 2.2 Get staffs on query
 router.get("/getStaff", requireAuth, controller.getRelevantStaff);
 router.post("/getStaff", requireAuth, controller.postRelevantStaff);
+router.get("/getDeletestaff", requireAuth, controller.getDeleteStaff);
 // 2.3 Get all staffs
 router.get("/getAllStaffs", requireAuth, controller.getAllStaff);
 // 2.4 Modify existing staffs
 router.get("/settings/staff/:id", requireAuth, controller.getStaffSettings);
 router.post("/settings/staff", requireAuth, controller.postStaffSettings);
+// 2.5 delete staff
+router.post("/staff/delete", requireAuth, controller.postDeleteStaff);
+// 2.6 reverse staff
+router.post(
+  "/staff/delete_reverse",
+  requireAuth,
+  controller.postReverseDeleteStaff
+);
 
 // 3.STUDENTS
 // 3.1 Add Student
@@ -63,6 +72,18 @@ router.get("/getAllStudents", requireAuth, controller.getAllStudent);
 // 3.4 Modify existing students
 router.get("/settings/student/:id", requireAuth, controller.getStudentSettings);
 router.post("/settings/student", requireAuth, controller.postStudentSettings);
+// 3.3 Get all Students delete
+router.get("/getAllDeleteStudents", requireAuth, controller.getDeleteStudent);
+// 2.5 delete student
+router.post("/student/delete", requireAuth, controller.postDeleteStudent);
+// 2.6 reverse staff
+router.post(
+  "/student/delete_reverse",
+  requireAuth,
+  controller.postReverseDeleteStudent
+);
+
+
 
 // 4.CLASSES (subjects mapping courses ,staffs and section)
 // 4.1 Select class

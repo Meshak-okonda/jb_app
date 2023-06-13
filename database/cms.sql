@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `course` (
 	`c_type` VARCHAR(255) NOT NULL,
 	`credits` INT NOT NULL,
 	`dept_id` VARCHAR(255) NOT NULL,
+	`image` VARCHAR(100),
 	PRIMARY KEY (`c_id`)
 );
 
